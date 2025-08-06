@@ -1,10 +1,23 @@
-let listaDeNomes = [];
+// nota: algumas partes do código foram reaproveitadas do desafio do numero secreto, realizado na propria formação!
 
-//futura funcionalidade:
-//function exibirTextoNaTela(tag, texto) {
-//    let campo = document.querySelector(tag);
-//    campo.innerHTML = texto;
-//}
+let listaDeNomes = [];
+let listaDeIndicesSorteados = [];
+
+function sortearNome() { //faz o sorteio do indice
+    let numeroEscolhido = parseInt(Math.random() * listaDeNomes.length);
+    let quantidadeDeElementosNaLista = listaDeIndicesSorteados.length;
+
+    if(quantidadeDeElementosNaLista == listaDeNomes.length){
+        listaDeIndicesSorteados = [];
+    }
+
+    if(listaDeIndicesSorteados.includes(numeroEscolhido)){
+        return sortearNome();
+    } else {
+        listaDeIndicesSorteados.push(numeroEscolhido);
+        return numeroEscolhido;
+    }
+}
 
 function exibirLista(array, nomeDaLista) { //função que exibe a lista desejada
     const ul = document.getElementById(nomeDaLista); //vai ate o elemento listaAmigos no html
@@ -28,9 +41,17 @@ function adicionarAmigo() {
     }   
 }
 
-function limparCampo() {
+function limparCampo() { //limpa campo de inserir nomes
     nome = document.querySelector('input');
     nome.value = '';
 }
 
-
+function sortearAmigo() {
+    if(listaDeNomes == null || listaDeNomes.length - 1 < 1){ //verifica se a lista está vazia/tem somente um nome!
+        alert("Escreva ao menos dois nomes!");
+    } else {
+        let sorteado = document.getElementById('resultado'); // vai ate o elemento resultado da pagina
+        let indiceSorteado = sortearNome();                  // sorteia indice
+        sorteado.innerHTML = "O amigo(a) sorteado é: " + listaDeNomes[indiceSorteado] + "!"; //exibe resultado do sorteio
+    }
+}
